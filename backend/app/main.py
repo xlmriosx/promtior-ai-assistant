@@ -1,6 +1,11 @@
+import os
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.utils import ensure_ollama_model
+
+model_name = os.getenv("MODEL_NAME", "llama3")
+ensure_ollama_model(model_name)
 
 app = FastAPI(
     title="Promtior RAG Chatbot",

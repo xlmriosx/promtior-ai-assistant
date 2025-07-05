@@ -1,8 +1,11 @@
+```
 ├── backend/
 │   ├── app/
 │   │   ├── __init__.py
-│   │   └── main.py
+│   │   ├── main.py
+│   │   └── utils.py
 │   ├── requirements.txt
-│   └── .env
+│   └── .env.example
 ├── compose.yml
 └── README.md
+```
