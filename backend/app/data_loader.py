@@ -41,6 +41,8 @@ def scrape_promtior_website():
     Algunas organizaciones que han trabajado con Promtior incluyen: Paigo, Handy, SIEE,
     Guyer & Regules, Infocorp, ST Consultores, CIEMSA, 5M Travel Group, Forestal Atlantico Sur,
     Advice Consulting, CAF, L'Oreal Latam Vangwe, RPA Maker, S1, Incapital.
+
+    Sus co-founders son Joaquin Avalos (CEO) y Ignacio Acuna (CTO).
     """
     documents = []
     documents.append(Document(
