@@ -6,11 +6,8 @@ from langchain.schema import Document
 def scrape_promtior_website():
     urls = [
         "https://promtior.ai/",
-        "https://promtior.ai/about",
-        "https://promtior.ai/services"
+        "https://promtior.ai/service"
     ]
-    
-    documents = []
     
     manual_content = """
     In November 2022, ChatGPT was released, causing a significant impact 
@@ -43,7 +40,7 @@ def scrape_promtior_website():
     Guyer & Regules, Infocorp, ST Consultores, CIEMSA, 5M Travel Group, Forestal Atlantico Sur,
     Advice Consulting, CAF, L'Oreal Latam Vangwe, RPA Maker, S1, Incapital.
     """
-    
+    documents = []
     documents.append(Document(
         page_content=manual_content,
         metadata={"source": "promtior_info", "type": "company_info"}
