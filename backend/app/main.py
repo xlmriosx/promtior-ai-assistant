@@ -3,7 +3,7 @@ import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-from app.models import ChatRequest
+from app.models import ChatRequest, ChatResponse
 from app.rag_chain import RAGChain
 from app.utils import ensure_ollama_model
 
@@ -35,6 +35,17 @@ async def root():
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
+
+@app.post("/chat", response_model=ChatResponse)
+async def chat(request: ChatRequest):
+    try:
+        result = rag_chain.query(request.message)
+        return ChatResponse(
+            response=result["response"],
+            sources=result["sources"]
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/ask")
 async def ask_question(request: ChatRequest):
