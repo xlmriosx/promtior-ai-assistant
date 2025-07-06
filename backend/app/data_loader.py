@@ -1,7 +1,9 @@
+import os
 import requests
 from bs4 import BeautifulSoup
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document
+from PyPDF2 import PdfReader
 
 def scrape_promtior_website():
     urls = [
@@ -72,14 +74,39 @@ def scrape_promtior_website():
     
     return documents
 
+def load_pdf_content(pdf_path):
+    text = ""
+    try:
+        reader = PdfReader(pdf_path)
+        for page in reader.pages:
+            page_text = page.extract_text()
+            if page_text:
+                text += page_text + "\n"
+    except Exception as e:
+        print(f"Error leyendo PDF: {e}")
+    return text
+
 def load_and_split_documents():
     documents = scrape_promtior_website()
+    
+    pdf_path = os.path.join(os.path.dirname(__file__), "../data/AI Engineer.pdf")
+    if os.path.exists(pdf_path):
+        pdf_text = load_pdf_content(pdf_path)
+        if pdf_text.strip():
+            documents.append(Document(
+                page_content=pdf_text,
+                metadata={"source": "AI Engineer.pdf", "type": "pdf"}
+            ))
+            print("PDF cargado y agregado a los documentos.")
+        else:
+            print("El PDF esta vacio o no se pudo leer.")
+    else:
+        print("No se encontro el PDF en la ruta esperada.")
     
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000,
         chunk_overlap=200,
         length_function=len,
     )
-    
     splits = text_splitter.split_documents(documents)
     return splits
