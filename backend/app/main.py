@@ -6,6 +6,9 @@ from dotenv import load_dotenv
 from app.models import ChatRequest, ChatResponse
 from app.rag_chain import RAGChain
 from app.utils import ensure_ollama_model
+from langchain.schema.runnable import RunnableLambda
+from langserve import add_routes
+from pydantic import BaseModel, Field
 
 load_dotenv()
 
@@ -58,6 +61,30 @@ async def ask_question(request: ChatRequest):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+class RAGInput(BaseModel):
+    question: str = Field(..., description="La pregunta sobre Promtior")
+
+def create_rag_runnable():
+    def rag_function(input_data: dict) -> str:
+        result = rag_chain.query(input_data["question"])
+        return result["response"]
+    
+    return RunnableLambda(rag_function).with_types(
+        input_type=RAGInput,
+        output_type=str
+    )
+
+try:
+    rag_runnable = create_rag_runnable()
+    add_routes(
+        app,
+        rag_runnable,
+        path="/langserve"
+    )
+    print("LangServe routes added successfully!")
+except Exception as e:
+    print(f"Warning: Could not add LangServe routes: {e}")
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
