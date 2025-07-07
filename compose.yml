@@ -15,5 +15,28 @@ services:
       timeout: 10s
       retries: 3
 
+  backend:
+    build:
+      context: ./backend
+    container_name: promtior-backend
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend/chroma_db:/app/chroma_db
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: promtior-frontend
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    restart: unless-stopped
+
 volumes:
   ollama_data: {}
+  chroma_data: {}
