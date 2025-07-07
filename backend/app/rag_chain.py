@@ -12,7 +12,7 @@ class RAGChain:
             model_name="sentence-transformers/all-MiniLM-L6-v2"
         )
         self.llm = Ollama(
-            model="llama3",
+            model="llama2",
             base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
         )
         self.vectorstore = None

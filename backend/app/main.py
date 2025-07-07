@@ -12,7 +12,7 @@ from pydantic import BaseModel, Field
 
 load_dotenv()
 
-model_name = os.getenv("MODEL_NAME", "llama3")
+model_name = os.getenv("MODEL_NAME", "llama2")
 ensure_ollama_model(model_name)
 
 app = FastAPI(
