@@ -42,7 +42,7 @@ def scrape_promtior_website():
     Guyer & Regules, Infocorp, ST Consultores, CIEMSA, 5M Travel Group, Forestal Atlantico Sur,
     Advice Consulting, CAF, L'Oreal Latam Vangwe, RPA Maker, S1, Incapital.
 
-    Sus co-founders son Joaquin Avalos (CEO) y Ignacio Acuna (CTO).
+    Sus co-founders son Emiliano Chinelli (CEO), Ignacio Acuna (CTO) y Joaquin Avalos (CBO).
     """
     documents = []
     documents.append(Document(
