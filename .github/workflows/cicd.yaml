@@ -40,14 +40,7 @@ jobs:
           # Building image with binaries
           cd frontend && docker build . -t ${{ env.SERVER }}/${{ secrets.DKR_USR }}/${{ env.IMAGE_FE }}:${{ github.sha }}
           # Pushing image to repository
-          docker push ${{ env.SERVER }}/${{ secrets.DKR_USR }}/${{ env.IMAGE }}:${{ github.sha }}
-      
-      - name: "Notify status of failure job"
-        if: ${{ failure() }}
-        run: |
-          curl -X POST -H "Content-Type: application/json" \
-          -d '{"content": "Something in build ${{ github.head_ref }} or push of image 📸 ${{ env.SERVER }}/${{ secrets.DKR_USR }}/${{ env.IMAGE }}:${{ github.sha }} was wrong! 🐳\nStatus: `${{ job.status }}` 💥👻 \nAutor: @${{ github.actor }}"}' \
-          ${{ secrets.DSC_WH_URL }}
+          docker push ${{ env.SERVER }}/${{ secrets.DKR_USR }}/${{ env.IMAGE_FE }}:${{ github.sha }}
       
       - name: "Build image and publish it 🐳 BE"
         shell: bash
@@ -55,7 +48,7 @@ jobs:
           # Building image with binaries
           cd backend && docker build . -t ${{ env.SERVER }}/${{ secrets.DKR_USR }}/${{ env.IMAGE_BE }}:${{ github.sha }}
           # Pushing image to repository
-          docker push ${{ env.SERVER }}/${{ secrets.DKR_USR }}/${{ env.IMAGE }}:${{ github.sha }}
+          docker push ${{ env.SERVER }}/${{ secrets.DKR_USR }}/${{ env.IMAGE_BE }}:${{ github.sha }}
       
       - name: "Notify status of failure job"
         if: ${{ failure() }}
