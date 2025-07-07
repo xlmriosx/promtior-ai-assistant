@@ -1,4 +1,7 @@
 ```
+├── .github/
+│   └── workflows/
+│       └── cicd.yaml
 ├── backend/
 │   ├── app/
 │   │   ├── __init__.py
@@ -10,8 +13,10 @@
 │   ├── data/
 │   │   └── AI Engineer.pdf
 │   ├── chroma_db/ (temp and not must be uploaded)
+│   ├── .dockerignore
 │   ├── .env.example
 │   ├── .gitignore
+│   ├── Dockerfile
 │   └── requirements.txt
 ├── frontend/
 │   ├── public/
@@ -31,13 +36,18 @@
 │   │   ├── App.tsx
 │   │   ├── index.css
 │   │   └── index.tsx
+│   ├── .dockerignore
 │   ├── .env.example
 │   ├── .gitignore
+│   ├── Dockerfile
 │   ├── package-lock.json
 │   ├── package.json
 │   ├── README.md
 │   ├── tailwind.config.js
 │   └── tsconfig.json
+├── manifests/
+│   ├── ollama-helm/ (helm manifest to deploy ollama server)
+│   └── virtualmachine/ (terraform manifests to deploy virtualmachine in Azure)
 ├── compose.yml
 └── README.md
 ```
