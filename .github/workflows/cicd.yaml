@@ -1,0 +1,78 @@
+name: build-publish-deploy
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+env:
+  SERVER: docker.io
+  IMAGE_FE: chat-promtior-shuhariko-com
+  HEALTHCHECK_FE: \/
+  CONTAINERPORT_FE: 80
+  TRAEFIK_HOST_FE: chat-promtior.shuhariko.com
+  TRAEFIK_PATH_FE: \/
+  SECRET_NAME_FE: chat-promtior-shuhariko-com-tls
+
+  IMAGE_BE: rag-promtior-shuhariko-com
+  HEALTHCHECK_BE: \/
+  CONTAINERPORT_BE: 8000
+  TRAEFIK_HOST_BE: backend-rag-promtior.shuhariko.com
+  TRAEFIK_PATH_BE: \/
+  SECRET_NAME_BE: rag-promtior-shuhariko-com-tls
+
+jobs:
+  build-publish-image:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: "Docker Hub repository login 💠"
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DKR_USR }}
+          password: ${{ secrets.DKR_PSW }}
+
+      - name: "Build image and publish it 🐳 FE"
+        shell: bash
+        run: |
+          # Building image with binaries
+          cd frontend && docker build . -t ${{ env.SERVER }}/${{ secrets.DKR_USR }}/${{ env.IMAGE_FE }}:${{ github.sha }}
+          # Pushing image to repository
+          docker push ${{ env.SERVER }}/${{ secrets.DKR_USR }}/${{ env.IMAGE }}:${{ github.sha }}
+      
+      - name: "Notify status of failure job"
+        if: ${{ failure() }}
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d '{"content": "Something in build ${{ github.head_ref }} or push of image 📸 ${{ env.SERVER }}/${{ secrets.DKR_USR }}/${{ env.IMAGE }}:${{ github.sha }} was wrong! 🐳\nStatus: `${{ job.status }}` 💥👻 \nAutor: @${{ github.actor }}"}' \
+          ${{ secrets.DSC_WH_URL }}
+      
+      - name: "Build image and publish it 🐳 BE"
+        shell: bash
+        run: |
+          # Building image with binaries
+          cd backend && docker build . -t ${{ env.SERVER }}/${{ secrets.DKR_USR }}/${{ env.IMAGE_BE }}:${{ github.sha }}
+          # Pushing image to repository
+          docker push ${{ env.SERVER }}/${{ secrets.DKR_USR }}/${{ env.IMAGE }}:${{ github.sha }}
+      
+      - name: "Notify status of failure job"
+        if: ${{ failure() }}
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d '{"content": "Something in build ${{ github.head_ref }} or push of image 📸 ${{ env.SERVER }}/${{ secrets.DKR_USR }}/${{ env.IMAGE }}:${{ github.sha }} was wrong! 🐳\nStatus: `${{ job.status }}` 💥👻 \nAutor: @${{ github.actor }}"}' \
+          ${{ secrets.DSC_WH_URL }}
+  
+  discord-notifications:
+    runs-on: ubuntu-latest
+    needs: [build-publish-image]
+    steps:
+      - name: Notify Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DSC_WH_URL }}
+          TARGET_BRANCH: develop
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d '{"content": "Build and deploy in ${{ github.head_ref }} server of app ${{ env.IMAGE }} was succesfully! 🐳🚀\n📸 Image: ${{ env.IMAGE }}:${{ github.sha }}\n👩‍💻 Autor: @${{ github.actor }}  \n📋 Status: `${{ job.status }}` 🍻✅\n🌍 Site: https://${{ env.TRAEFIK_HOST }}${{ env.TRAEFIK_PATH }}\nCheck in k8s with: `kubectl get all -n ${{ env.IMAGE }}`  "}' \
+          ${{ secrets.DSC_WH_URL }}
