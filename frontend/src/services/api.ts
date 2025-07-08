@@ -1,13 +1,33 @@
 import axios from 'axios';
 import { ChatRequest, ChatResponse } from '../types/chat';
+import { loadRuntimeConfig, RuntimeConfig } from '../config/runtime-config';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+let config: RuntimeConfig | null = null;
+let configPromise: Promise<RuntimeConfig> | null = null;
+
+const getConfig = async (): Promise<RuntimeConfig> => {
+  if (config) {
+    return config;
+  }
+  
+  if (!configPromise) {
+    configPromise = loadRuntimeConfig();
+  }
+  
+  config = await configPromise;
+  return config;
+};
 
 const api = axios.create({
-  baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
+});
+
+api.interceptors.request.use(async (requestConfig) => {
+  const runtimeConfig = await getConfig();
+  requestConfig.baseURL = runtimeConfig.REACT_APP_API_URL;
+  return requestConfig;
 });
 
 export const chatService = {
@@ -21,6 +41,8 @@ export const chatService = {
     const response = await api.get('/health');
     return response.data;
   },
+
+  getConfig: () => getConfig(),
 };
 
 export default api;
