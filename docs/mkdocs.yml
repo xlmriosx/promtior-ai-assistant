@@ -1,6 +1,5 @@
-site_name: Promtior | Documentation
-site_description: promtior-ai-assistant Documentation
-site_url: https://github.com/xlmriosx/promtior-ai-assistant
+site_name: ai-assistant | Documentation
+site_description: ai-assistant Documentation
 
 theme:
   name: material
@@ -13,16 +12,11 @@ theme:
     toggle:
       icon: material/weather-night
       name: Switch to dark mode
-  features:
-    - navigation.tabs
-    - navigation.top
-    - content.code.annotate
-    - content.code.copy
 
 plugins:
   - search
-  - blog
 
 nav:
+  - Project: index.md
   - Overview: overview.md
   - Architecture: architecture.md
