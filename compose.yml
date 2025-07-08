@@ -4,10 +4,10 @@ services:
     container_name: ollama
     ports:
       - 11434:11434
-    volumes:
-      - ollama_data:/root/.ollama
     environment:
       - OLLAMA_ORIGINS=*
+    volumes:
+      - ollama_data:/root/.ollama
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:11434"]
@@ -19,22 +19,24 @@ services:
     build:
       context: ./backend
     container_name: promtior-backend
+    ports:
+      - 8000:8000
     env_file:
       - ./backend/.env
     volumes:
       - ./backend/chroma_db:/app/chroma_db
-    ports:
-      - "8000:8000"
     restart: unless-stopped
+    depends_on:
+      - ollama
 
   frontend:
     build:
       context: ./frontend
     container_name: promtior-frontend
-    depends_on:
-      - backend
+    environment:
+      - REACT_APP_API_URL=http://backend:8000
     ports:
-      - "80:80"
+      - 80:80
     restart: unless-stopped
 
 volumes:
