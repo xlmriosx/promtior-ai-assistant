@@ -1,0 +1,5 @@
+site_name: promtior-ai-assistant Documentation
+
+nav:
+  - Home: index.md
+  - Architecture: architecture.md
