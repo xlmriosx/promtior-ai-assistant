@@ -1,5 +1,28 @@
-site_name: promtior-ai-assistant Documentation
+site_name: Promtior | Documentation
+site_description: promtior-ai-assistant Documentation
+site_url: https://github.com/xlmriosx/promtior-ai-assistant
+
+theme:
+  name: material
+  logo: assets/logo.png
+  favicon: assets/logo.png
+  palette:
+    scheme: default
+    primary: black
+    accent: blue
+    toggle:
+      icon: material/weather-night
+      name: Switch to dark mode
+  features:
+    - navigation.tabs
+    - navigation.top
+    - content.code.annotate
+    - content.code.copy
+
+plugins:
+  - search
+  - blog
 
 nav:
-  - Home: index.md
+  - Overview: overview.md
   - Architecture: architecture.md
