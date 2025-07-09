@@ -97,7 +97,7 @@ jobs:
           sed -i 's/fullnameOverride: .*/fullnameOverride: ${{ env.IMAGE_DOCS }}/' values.yaml && \
           sed -i 's/path: .*/path: ${{ env.TRAEFIK_PATH_DOCS }}/' values.yaml && \
           sed -i 's/secretName: .*/secretName: ${{ env.SECRET_NAME_DOCS }}/' values.yaml && \
-          sed -i 's/TRAEFIK_HOST/${{ env.TRAEFIK_PATH_DOCS }}/' values.yaml && \
+          sed -i 's/TRAEFIK_HOST/${{ env.TRAEFIK_HOST_DOCS }}/' values.yaml && \
           sed -i 's/values_image_name_app/${{ env.IMAGE_DOCS }}/g' templates/deployment.yaml && \
           helm upgrade --install ${{ env.IMAGE_DOCS }} . -n ${{ env.IMAGE_DOCS }} -f values.yaml --dry-run --debug && \
           helm upgrade --install ${{ env.IMAGE_DOCS }} . -n ${{ env.IMAGE_DOCS }} -f values.yaml --create-namespace --force
