@@ -13,7 +13,7 @@ variable "location" {
 variable "frontend_image_name" {
   type        = string
   description = "Path image docker for use in backend"
-  default = "docker.io/xlmriosx/chat-promtior-shuhariko-com"
+  default = "promtior.azurecr.io/promtior/chat-promtior-shuhariko-com"
 }
 
 variable "frontend_image_tag" {
@@ -25,7 +25,7 @@ variable "frontend_image_tag" {
 variable "backend_image_name" {
   type        = string
   description = "Path image docker for use in backend"
-  default = "docker.io/xlmriosx/rag-promtior-shuhariko-com"
+  default = "promtior.azurecr.io/promtior/rag-promtior-shuhariko-com"
 }
 
 variable "backend_image_tag" {
