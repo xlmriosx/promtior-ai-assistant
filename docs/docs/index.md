@@ -49,3 +49,17 @@ server was deploy it using Helm to be used from the VPS.
 ### LangServe Playground
 
 ![backend-langserve-running](assets/rag-playground.png)
+
+## Frontend
+
+![frontend-running](assets/chat-running.png)
+
+### Writing
+
+![frontend-requesting](assets/chat-requesting.png)
+
+### Answers
+
+![frontend-company-foundation](assets/chat-company-foundation.png)
+
+![frontend-services](assets/chat-services.png)

@@ -1,4 +1,4 @@
-site_name: ai-assistant | Documentation
+site_name: Docs Chat AI Assistant
 site_description: ai-assistant Documentation
 
 theme:
@@ -12,11 +12,16 @@ theme:
     toggle:
       icon: material/weather-night
       name: Switch to dark mode
+  icon: fontawesome/brands/github
+
+repo_url: https://github.com/xlmriosx/promtior-ai-assistant
+repo_name: GitHub 
 
 plugins:
   - search
 
 nav:
-  - Project: index.md
+  - Introduction: index.md
   - Overview: overview.md
   - Architecture: architecture.md
+  
