@@ -87,7 +87,7 @@ jobs:
       - name: "Deploying Helm App 🚀"
         run: |
           mkdir ~/.kube && echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config && export KUBECONFIG=~/.kube/config && \
-          cd manifests && \
+          cd manifests/vps-docs-helm && \
           sed -i 's/name_app: .*/name_app: ${{ env.IMAGE_DOCS }}/' values.yaml && \
           sed -i 's/tag: .*/tag: ${{ github.sha }}/' values.yaml && \
           sed -i 's/containerPort: .*/containerPort: ${{ env.CONTAINERPORT_DOCS }}/' values.yaml && \
