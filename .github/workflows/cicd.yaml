@@ -21,6 +21,13 @@ env:
   TRAEFIK_PATH_BE: \/
   SECRET_NAME_BE: rag-promtior-shuhariko-com-tls
 
+  IMAGE_DOCS: docs-chat-promtior-shuhariko-com
+  HEALTHCHECK_DOCS: \/
+  CONTAINERPORT_DOCS: 8000
+  TRAEFIK_HOST_DOCS: docs-chat-promtior.shuhariko.com
+  TRAEFIK_PATH_DOCS: \/
+  SECRET_NAME_DOCS: docs-chat-promtior-shuhariko-com-tls
+
 jobs:
   build-publish-image:
     runs-on: ubuntu-latest
@@ -49,17 +56,62 @@ jobs:
           cd backend && docker build . -t ${{ env.SERVER }}/${{ secrets.DKR_USR }}/${{ env.IMAGE_BE }}:${{ github.sha }}
           # Pushing image to repository
           docker push ${{ env.SERVER }}/${{ secrets.DKR_USR }}/${{ env.IMAGE_BE }}:${{ github.sha }}
+
+      - name: "Build image and publish it 🐳 DOCS"
+        shell: bash
+        run: |
+          # Building image with binaries
+          cd backend && docker build . -t ${{ env.SERVER }}/${{ secrets.DKR_USR }}/${{ env.IMAGE_DOCS }}:${{ github.sha }}
+          # Pushing image to repository
+          docker push ${{ env.SERVER }}/${{ secrets.DKR_USR }}/${{ env.IMAGE_DOCS }}:${{ github.sha }}
       
       - name: "Notify status of failure job"
         if: ${{ failure() }}
         run: |
           curl -X POST -H "Content-Type: application/json" \
-          -d '{"content": "Something in build ${{ github.head_ref }} or push of image 📸 ${{ env.SERVER }}/${{ secrets.DKR_USR }}/${{ env.IMAGE }}:${{ github.sha }} was wrong! 🐳\nStatus: `${{ job.status }}` 💥👻 \nAutor: @${{ github.actor }}"}' \
+          -d '{"content": "Something in build ${{ github.head_ref }} or push of images 📸 in commit ${{ github.sha }} was wrong! 🐳\nStatus: `${{ job.status }}` 💥👻 \nAutor: @${{ github.actor }}"}' \
+          ${{ secrets.DSC_WH_URL }}
+
+  deploy-app:
+    runs-on: ubuntu-latest
+    needs: [build-publish-image]
+    steps:
+      - uses: actions/checkout@v3
+      
+      # Get the name of each branch where running
+      - name: "Getting name of branch 🌿"
+        id: vars
+        run: echo ::set-output name=branch::${GITHUB_REF#refs/*/} # ${{ steps.vars.outputs.branch }}
+
+      # Connecting to srv and running helm commands to initialize or upgrade charts
+      - name: "Deploying Helm App 🚀"
+        run: |
+          mkdir ~/.kube && echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config && export KUBECONFIG=~/.kube/config && \
+          cd manifests && \
+          sed -i 's/name_app: .*/name_app: ${{ env.IMAGE_DOCS }}/' values.yaml && \
+          sed -i 's/tag: .*/tag: ${{ github.sha }}/' values.yaml && \
+          sed -i 's/containerPort: .*/containerPort: ${{ env.CONTAINERPORT_DOCS }}/' values.yaml && \
+          sed -i 's/livenessProbe: .*/livenessProbe: ${{ env.HEALTHCHECK_DOCS }}/' values.yaml && \
+          sed -i 's/readinessProbe: .*/readinessProbe: ${{ env.HEALTHCHECK_DOCS }}/' values.yaml && \
+          sed -i 's/nameOverride: .*/nameOverride: ${{ env.IMAGE_DOCS }}/' values.yaml && \
+          sed -i 's/fullnameOverride: .*/fullnameOverride: ${{ env.IMAGE_DOCS }}/' values.yaml && \
+          sed -i 's/path: .*/path: ${{ env.TRAEFIK_PATH_DOCS }}/' values.yaml && \
+          sed -i 's/secretName: .*/secretName: ${{ env.SECRET_NAME_DOCS }}/' values.yaml && \
+          sed -i 's/TRAEFIK_HOST/${{ env.TRAEFIK_PATH_DOCS }}/' values.yaml && \
+          sed -i 's/values_image_name_app/${{ env.IMAGE_DOCS }}/g' templates/deployment.yaml && \
+          helm upgrade --install ${{ env.IMAGE_DOCS }} . -n ${{ env.IMAGE_DOCS }} -f values.yaml --dry-run --debug && \
+          helm upgrade --install ${{ env.IMAGE_DOCS }} . -n ${{ env.IMAGE_DOCS }} -f values.yaml --create-namespace --force
+
+      - name: "Notify status of failure job"
+        if: ${{ failure() }}
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d '{"content": "Something in deploy of docs ${{ github.head_ref }} with commit ${{ github.sha }} was wrong! 🚀\nStatus: `${{ job.status }}` 💥👻 \nAutor: @${{ github.actor }}"}' \
           ${{ secrets.DSC_WH_URL }}
   
   discord-notifications:
     runs-on: ubuntu-latest
-    needs: [build-publish-image]
+    needs: [deploy-app]
     steps:
       - name: Notify Discord
         env:
