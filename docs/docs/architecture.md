@@ -1,3 +1,9 @@
+# Infrastructure
+
+This is a view detailed of infrastructure used.
+
+![arch-infrastructure](assets/arch-infrastructure.webp)
+
 # Components
 
 This is a view more detailed of each element in the app.
