@@ -61,7 +61,7 @@ jobs:
         shell: bash
         run: |
           # Building image with binaries
-          cd backend && docker build . -t ${{ env.SERVER }}/${{ secrets.DKR_USR }}/${{ env.IMAGE_DOCS }}:${{ github.sha }}
+          cd docs && docker build . -t ${{ env.SERVER }}/${{ secrets.DKR_USR }}/${{ env.IMAGE_DOCS }}:${{ github.sha }}
           # Pushing image to repository
           docker push ${{ env.SERVER }}/${{ secrets.DKR_USR }}/${{ env.IMAGE_DOCS }}:${{ github.sha }}
       
