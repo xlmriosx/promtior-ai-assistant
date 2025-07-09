@@ -15,7 +15,16 @@ server was deploy it using Helm to be used from the VPS.
 | Backend     |  [rag-promtior.shuhariko.com](https://rag-promtior.shuhariko.com)  |
 | Frontend     |  [chat-promtior.shuhariko.com](https://chat-promtior.shuhariko.com)   |
 
-# Using
+# Interesting links
+
+| Description    | Link |
+|-----------|------|
+| Documentation      | [docs-chat-promtior.shuhariko.com](https://docs-chat-promtior.shuhariko.com)   |
+| Swagger     |  [rag-promtior.shuhariko.com](https://rag-promtior.shuhariko.com/docs)  |
+| LangServer     |  [rag-promtior.shuhariko.com](https://rag-promtior.shuhariko.com/langserve/playground)  |
+| Chat     |  [chat-promtior.shuhariko.com](https://chat-promtior.shuhariko.com)   |
+
+# Screenshots
 
 ## Ollama
 
