@@ -29,3 +29,73 @@ server was deploy it using Helm to be used from the VPS.
 | Frontend     |  [chat-promtior.shuhariko.com](https://chat-promtior.shuhariko.com)   |
 
 I recommend go to documentation to take a look of a detailed view of entire project.
+
+# Instructions
+
+To continue developing or test locally.
+
+1. Clone the repo and later enter project folder.
+
+- `git clone https://github.com/xlmriosx/promtior-ai-assistant.git`
+
+- `cd promtior-ai-assistant`
+
+2. Run docker compose.
+
+- `docker compose up`
+
+## Backend
+
+1. Enter backend folder.
+
+- `cd backend`
+
+2. Create virtual env python.
+
+- `python -m venv ve`
+
+3. Install dependencies.
+
+- `pip install -r requirements.txt`
+
+4. Run the app.
+
+- `uvicorn app.main:app --host 0.0.0.0 --port 8000`
+
+5. Check in the browser in `localhost:8000`
+
+## Frontend
+
+1. Enter frontend folder.
+
+- `cd frontend`
+
+2. Install dependecies.
+
+- `npm i`
+
+3. Run the app.
+
+- `npm start`
+
+4. Check in the browser in `localhost:3000`
+
+## Documentation
+
+1. Enter backend folder.
+
+- `cd docs`
+
+2. Create virtual env python.
+
+- `python -m venv ve`
+
+3. Install dependencies.
+
+- `pip install -r requirements.txt`
+
+4. Run the app.
+
+- `mkdocs serve`
+
+5. Check in the browser in `localhost:8000`
