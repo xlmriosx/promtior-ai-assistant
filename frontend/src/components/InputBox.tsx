@@ -26,25 +26,24 @@ const InputBox: React.FC<InputBoxProps> = ({ onSendMessage, isLoading }) => {
   return (
     <div className="border-t bg-white p-4">
       <div className="flex gap-2 items-end">
-        <div className="flex-1">
-          <textarea
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Pregunta sobre Promtior..."
-            className="w-full p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            rows={2}
-            disabled={isLoading}
-            style={{
-                minHeight: '56px',
-                maxHeight: '120px',
-            }}
-            />
-        </div>
+        <textarea
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyPress={handleKeyPress}
+          placeholder="Write some question about Promtior..."
+          className="flex-1 w-full p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          rows={2}
+          disabled={isLoading}
+          style={{
+            minHeight: '56px',
+            maxHeight: '120px',
+          }}
+        />
         <button
           onClick={handleSend}
           disabled={!message.trim() || isLoading}
-          className="bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+          className="h-[75px] flex items-center justify-center bg-blue-500 text-white px-4 rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+          style={{ minHeight: '56px' }}
         >
           {isLoading ? (
             <Loader2 className="w-5 h-5 animate-spin" />

@@ -22,7 +22,7 @@ const ChatInterface: React.FC = () => {
   useEffect(() => {
     const welcomeMessage: Message = {
       id: '1',
-      content: '¡Hola! Soy el asistente de Promtior. Puedo responder preguntas sobre nuestros servicios, historia y más. ¿En qué puedo ayudarte?',
+      content: 'Hello! I am the Promtior Assistant. I can answer questions about our services, history, and more. How can I help you?',
       isUser: false,
       timestamp: new Date(),
     };
@@ -55,11 +55,11 @@ const ChatInterface: React.FC = () => {
       setMessages(prev => [...prev, botMessage]);
     } catch (err) {
       console.error('Error sending message:', err);
-      setError('Error al enviar el mensaje. Por favor, intenta de nuevo.');
+      setError('Error sending message. Please try again.');
       
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: 'Lo siento, hubo un error al procesar tu mensaje. Por favor, intenta de nuevo.',
+        content: 'Sorry, there was an error processing your message. Please try again.',
         isUser: false,
         timestamp: new Date(),
       };
@@ -71,7 +71,7 @@ const ChatInterface: React.FC = () => {
   };
 
     return (
-    <div className="w-full max-w-2xl flex flex-col bg-white rounded-lg shadow-lg">
+    <div className="w-full max-w-2xl flex flex-col bg-white rounded-lg shadow-2xl" style={{ minHeight: '70vh', maxHeight: '90vh', border: '50px' }}>
         {error && (
         <div className="bg-red-50 border-l-4 border-red-400 p-4 rounded-t-lg">
             <div className="flex items-center">
@@ -90,7 +90,7 @@ const ChatInterface: React.FC = () => {
             <div className="bg-gray-100 rounded-lg p-4">
                 <div className="flex items-center gap-2">
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></div>
-                <span className="text-gray-600">Escribiendo...</span>
+                <span className="text-gray-600">Writing...</span>
                 </div>
             </div>
             </div>

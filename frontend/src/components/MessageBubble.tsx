@@ -50,7 +50,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
       
       {message.isUser && (
         <div className="flex-shrink-0">
-          <div className="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center">
+          <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
             <User className="w-5 h-5 text-white" />
           </div>
         </div>
