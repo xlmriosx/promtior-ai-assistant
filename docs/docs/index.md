@@ -12,17 +12,17 @@ server was deploy it using Helm to be used from the VPS.
 |-----------|------|
 | Ollama Server      | [ollama-llama2.shuhariko.com](https://ollama-llama2.shuhariko.com)   |
 | Documentation      | [docs-chat-promtior.shuhariko.com](https://docs-chat-promtior.shuhariko.com)   |
-| Backend     |  [rag-promtior.shuhariko.com](https://rag-promtior.shuhariko.com)  |
-| Frontend     |  [chat-promtior.shuhariko.com](https://chat-promtior.shuhariko.com)   |
+| Backend     |  [rag-promtior.shuhariko.com](https://promtior-rg-backend.graydesert-e23ea43b.brazilsouth.azurecontainerapps.io)  |
+| Frontend     |  [chat-promtior.shuhariko.com](https://promtior-rg-frontend.graydesert-e23ea43b.brazilsouth.azurecontainerapps.io)   |
 
 # Interesting links
 
 | Description    | Link |
 |-----------|------|
 | Documentation      | [docs-chat-promtior.shuhariko.com](https://docs-chat-promtior.shuhariko.com)   |
-| Swagger     |  [rag-promtior.shuhariko.com](https://rag-promtior.shuhariko.com/docs)  |
-| LangServer     |  [rag-promtior.shuhariko.com](https://rag-promtior.shuhariko.com/langserve/playground)  |
-| Chat     |  [chat-promtior.shuhariko.com](https://chat-promtior.shuhariko.com)   |
+| Swagger     |  [rag-promtior.shuhariko.com](https://promtior-rg-backend.graydesert-e23ea43b.brazilsouth.azurecontainerapps.io/docs)  |
+| LangServer     |  [rag-promtior.shuhariko.com](https://promtior-rg-backend.graydesert-e23ea43b.brazilsouth.azurecontainerapps.io/langserve/playground)  |
+| Chat     |  [chat-promtior.shuhariko.com](https://promtior-rg-frontend.graydesert-e23ea43b.brazilsouth.azurecontainerapps.io)   |
 
 # Screenshots
 
